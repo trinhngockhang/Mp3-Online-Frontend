@@ -1,0 +1,17 @@
+
+.Login {
+    padding: 60px 0;
+}
+  
+.Login form {
+    margin: 0 auto;
+    max-width: 320px;
+}
+.section {
+    margin-top: 30px;
+}
+.artist-image{
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+}
