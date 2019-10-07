@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import axios from '../utils/axios';
 import { Row, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { playSong } from '../actions/action_song';
 
-export default class NewSong extends Component{
+class NewSong extends Component{
   constructor(props){
     super(props);
     this.state = {items: []};
@@ -22,8 +25,8 @@ export default class NewSong extends Component{
           <div className=""></div>
           {this.state.items.map((song, index) => {
             return(
-              <Col key={index} onClick={() =>{
-
+              <Col key={index} className="playable" onClick={() =>{
+                this.props.playSong(song.id)
                 }}>
                 <img src={song.image}></img>
                 <p>{song.nameSong}</p>
@@ -35,3 +38,15 @@ export default class NewSong extends Component{
     )
   }
 };
+
+function mapStateToProps(state){
+  return {
+    songActive: state.songActive
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({ playSong: playSong }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewSong);

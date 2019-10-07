@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import axios from '../utils/axios';
 import Carousel from 'react-bootstrap/Carousel'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { playSong } from '../actions/action_song';
 
-export default class Slide extends Component{
+class Slide extends Component{
   constructor(props){
     super(props);
     this.state = {items: []};
@@ -21,7 +24,9 @@ export default class Slide extends Component{
           {this.state.items.map((song, index) => {
             console.log('song ne', song.coverImg);
           return(
-            <Carousel.Item key={index}>
+            <Carousel.Item key={index} onClick={() =>{
+              this.props.playSong(song.id)
+              }}>
               <a>
                 <img
                   className="d-block w-100"
@@ -37,3 +42,15 @@ export default class Slide extends Component{
     )
   }
 };
+
+function mapStateToProps(state){
+  return {
+    songActive: state.songActive
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({ playSong: playSong }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Slide);

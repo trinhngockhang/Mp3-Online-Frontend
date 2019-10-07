@@ -15,3 +15,18 @@
     height: 140px;
     border-radius: 50%;
 }
+.audioControl{
+    position: fixed;
+    bottom: 0;
+    z-index: 2;
+    width: 100%;
+}
+.playable{
+    cursor: pointer;
+}
+.container{
+    margin-bottom: 20px;
+}
+.col{
+    margin: auto;
+}
