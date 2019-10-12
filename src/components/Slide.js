@@ -25,7 +25,7 @@ class Slide extends Component{
             console.log('song ne', song.coverImg);
           return(
             <Carousel.Item key={index} onClick={() =>{
-              this.props.playSong(song.id)
+              this.props.playSong(song)
               }}>
               <a>
                 <img

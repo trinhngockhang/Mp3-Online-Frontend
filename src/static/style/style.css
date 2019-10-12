@@ -25,8 +25,43 @@
     cursor: pointer;
 }
 .container{
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 .col{
     margin: auto;
+}
+
+.list-song-album-page{
+    margin-top: 0;
+}
+
+.thum-40{
+    width: 40px;
+    height: 40px;
+}
+
+.song-list{
+    align-items: center;
+    justify-content: center;
+    margin-right: 17px;
+    display: flex;
+    margin-bottom: 9px;
+}
+.order{
+    align-items: center;
+    justify-content: center;
+    margin-right: 17px;
+    display: flex;
+}
+
+.all-card{
+    display: -webkit-box;
+    margin-bottom: 9px;
+    border-bottom: 1px solid #232323;
+}
+.title-singer{
+    margin: 0;
+}
+.artist{
+    font-size: 14px;
 }

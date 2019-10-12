@@ -4,15 +4,23 @@ import Home from './Home';
 import Login from './Login';
 import ProtectedRoute from '../components/ProtectRoute';
 import AudioControl from './AudioControl';
-
+import Header from '../components/Header';
+import Container from 'react-bootstrap/Container';
+import ArtistPage from './ArtistPage';
+import AlbumPage from './AlbumPage';
 export default class App extends Component {
   render() {
     return (
-      <div className="w-zingmp3 masthead-none">
+      <div>
+        <Container>
         <Router>
+          <Header/>
           <Route path="/login" component={Login}></Route>
-          <Route path="/" component={Home}></Route>
+          <Route exact path="/" component={Home}></Route>
+          <Route path="/artist/:id" component={ArtistPage}></Route>
+          <Route path="/album/:id" component={AlbumPage}></Route>
         </Router>
+      </Container>
         <AudioControl/>
       </div>
     );

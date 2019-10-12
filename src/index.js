@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './static/style/style.css';
+import "react-jinke-music-player/assets/index.css";
 import App from './containers/app';
 import reducers from './reducers';
 import thunk from 'redux-thunk';

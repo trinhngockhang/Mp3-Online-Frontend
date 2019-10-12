@@ -22,11 +22,10 @@ class NewSong extends Component{
       <div className="section">
         <h3>Những bài hát mới</h3>
         <Row>
-          <div className=""></div>
           {this.state.items.map((song, index) => {
             return(
-              <Col key={index} className="playable" onClick={() =>{
-                this.props.playSong(song.id)
+              <Col key={index} col lg = {3} md={3} className="playable" onClick={() =>{
+                this.props.playSong(song);
                 }}>
                 <img src={song.image}></img>
                 <p>{song.nameSong}</p>
@@ -46,7 +45,7 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({ playSong: playSong }, dispatch);
+  return bindActionCreators({ playSong: playSong, }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewSong);

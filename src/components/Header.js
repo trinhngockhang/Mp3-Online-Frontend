@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default class Header extends Component{
   render(){
     return (
       <div>
        <Navbar bg="light" expand="lg">
-         <Navbar.Brand href="#home">Mp3 Online</Navbar.Brand>
+         <Navbar.Brand ><Link to='/'>MP3 Online</Link></Navbar.Brand>
          <Navbar.Toggle aria-controls="basic-navbar-nav" />
          <Navbar.Collapse id="basic-navbar-nav">
        <Nav className="mr-auto">
-        <Nav.Link href="#home">Home</Nav.Link>
-        <Nav.Link href="#link">Album</Nav.Link>
-        <Nav.Link href="#home">Artist</Nav.Link>
-        <Nav.Link href="#link">Top 100</Nav.Link>
+       <Nav.Link><Link to='/'>Home</Link></Nav.Link>
+       <Nav.Link><Link to='/'>Albums</Link></Nav.Link>
+       <Nav.Link><Link to='/'>Artist</Link></Nav.Link>
         {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
          <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
         <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>

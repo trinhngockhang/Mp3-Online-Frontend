@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import axios from '../utils/axios';
 import { Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-export default class Artist extends Component{
+export default class AlbumSection extends Component{
   constructor(props){
     super(props);
     this.state = {items: []};
@@ -10,21 +11,22 @@ export default class Artist extends Component{
   }
   async getData(){
     const newAxios = await axios();
-    const result = await newAxios.get('/artist/suggest');
+    const result = await newAxios.get('/album/new');
     this.setState({items: result.data});
   }
 
   render(){
     return (
       <div className="section">
-        <h3>Nghệ sĩ</h3>
+        <h3>Albums mới</h3>
         <Row>
-          <div className=""></div>
-          {this.state.items.map((singer, index) => {
+          {this.state.items.map((album, index) => {
             return(
-              <Col key={index}>
-                <img src={singer.avatar} className="artist-image" alt={singer.name}></img>
-                <p>{singer.name}</p>
+              <Col key={index} col lg = {3} md={3}>
+              <Link to={`/album/${album.id}`}>
+                <img src={album.img}></img>
+                <p>{album.albumName}</p>
+              </Link>
               </Col>
             )
           })}
