@@ -34,7 +34,7 @@ class AudioControl extends Component{
           return {
             name:song.nameSong,
             singer:this.getNameSinger(song),
-            musicSrc:'http://localhost:3001/song/' + song.id,
+            musicSrc:`${process.env.REACT_APP_API_URL}/song/` + song.id,
             cover: song.image
           }
         })

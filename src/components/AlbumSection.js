@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from '../utils/axios';
+import { axiosApi } from '../utils/axios';
 import { Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
@@ -10,8 +10,7 @@ export default class AlbumSection extends Component{
     this.getData();
   }
   async getData(){
-    const newAxios = await axios();
-    const result = await newAxios.get('/album/new');
+    const result = await axiosApi.get('/album/new');
     this.setState({items: result.data});
   }
 

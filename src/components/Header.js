@@ -6,9 +6,10 @@ export default class Header extends Component{
   render(){
     return (
       <div>
-       <Navbar bg="light" expand="lg">
+       <Navbar bg="dark" expand="lg">
          <Navbar.Brand ><Link to='/'>MP3 Online</Link></Navbar.Brand>
          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+         
          <Navbar.Collapse id="basic-navbar-nav">
        <Nav className="mr-auto">
        <Nav.Link><Link to='/'>Home</Link></Nav.Link>
@@ -22,11 +23,10 @@ export default class Header extends Component{
         <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
         </NavDropdown> */}
         </Nav>
-    <Form inline>
-      <FormControl type="text" placeholder="Search song,album..." className="sr-sm-2" />
-      <Button variant="dark">Search</Button>
-    </Form>
   </Navbar.Collapse>
+  <Form inline>
+      <FormControl type="text" placeholder="Search song,album..." className="sr-sm-2" />
+    </Form>
 </Navbar>
       </div>
     )

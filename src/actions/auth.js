@@ -6,7 +6,7 @@ export const loginAction = ({ username, password }) => {
   return dispatch => {
     dispatch(loginStart());
     axios
-      .post(`http://localhost:3001/auth/login`, {
+      .post(`${process.env.REACT_APP_API_URL}/auth/login`, {
         username,
         password,
       })

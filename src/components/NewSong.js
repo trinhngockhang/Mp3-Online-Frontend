@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from '../utils/axios';
+import { axiosApi} from '../utils/axios';
 import { Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,8 +12,7 @@ class NewSong extends Component{
     this.getData();
   }
   async getData(){
-    const newAxios = await axios();
-    const result = await newAxios.get('/song/new');
+    const result = await axiosApi.get('/song/new');
     this.setState({items: result.data});
   }
 
@@ -24,11 +23,18 @@ class NewSong extends Component{
         <Row>
           {this.state.items.map((song, index) => {
             return(
-              <Col key={index} col lg = {3} md={3} className="playable" onClick={() =>{
+              <Col key={index} col lg = {3} md={3} className="playable song" onClick={() =>{
                 this.props.playSong(song);
                 }}>
                 <img src={song.image}></img>
                 <p>{song.nameSong}</p>
+                <div class="player-actions">
+                  <ul>
+                    <li style={{zIndex: 11}}>
+                      <i class="icon ic-svg-play-outline"></i>
+                    </li>
+                  </ul>
+                </div>
               </Col>
             )
           })}

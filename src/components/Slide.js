@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from '../utils/axios';
+import { axiosApi } from '../utils/axios';
 import Carousel from 'react-bootstrap/Carousel'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,8 +12,7 @@ class Slide extends Component{
     this.getData();
   }
   async getData(){
-    const newAxios = await axios();
-    const result = await newAxios.get('/song/slide');
+    const result = await axiosApi.get('/song/slide');
     this.setState({items: result.data});
   }
 

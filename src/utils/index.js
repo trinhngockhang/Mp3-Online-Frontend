@@ -5,3 +5,7 @@ export const convertToName = (arr = []) => {
   })
   return name;
 }
+
+export const convertToMinute = (seconds = 0) => {
+    
+}

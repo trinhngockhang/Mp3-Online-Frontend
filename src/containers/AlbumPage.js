@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from '../utils/axios';
+import { axiosApi } from '../utils/axios';
 import { Row, Col } from 'react-bootstrap';
-import { convertToName } from '../utils/index';
 import { playSong } from '../actions/action_song';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 
 class AlbumPage extends Component{
   constructor(props){
@@ -15,13 +15,11 @@ class AlbumPage extends Component{
     this.state = {};
   }
   async getDataAlbum(id){
-    const newAxios = await axios();
-    const result = await newAxios.get(`/album/${id}`);
+    const result = await axiosApi.get(`/album/${id}`);
     this.setState({...this.state,album: result.data});
   }
   async getListSong(id){
-    const newAxios = await axios();
-    const result = await newAxios.get(`/song/album/${id}`);
+    const result = await axiosApi.get(`/song/album/${id}`);
     this.setState({...this.state, listSong: result.data}); 
   }
   render(){
@@ -44,11 +42,15 @@ class AlbumPage extends Component{
             {this.state.album.singer.map((data, index) =>{
               return index == 0?
               (
-                <span key={index}>{data}</span>
+                <Link to={`/artist/${data.singerId}`}>
+                  <span key={index}>{data.singer}</span>
+                </Link> 
               )
               :
               (
-                <span key={index}>, {data}</span>  
+                <Link to={`/artist/${data.singerId}`}>
+                  <span key={index}>, {data.singer}</span>
+                </Link> 
               )
             })}
           </Col>
