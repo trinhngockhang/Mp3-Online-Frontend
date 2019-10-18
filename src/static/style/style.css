@@ -71,6 +71,8 @@ html{
 }
 .navbar{
     background-color: #121212;
+    border-bottom: 1px solid #232323;
+
 }
 
 a {
@@ -141,4 +143,22 @@ body{
 }
 li {
     list-style-type: none;
+}
+.category-image {
+    width: 100%;
+}
+
+.song-image {
+    width: 100%;
+}
+.album-image{
+    width: 100%;
+    height: 100%;
+}
+.col {
+    margin: auto;
+    margin-top: 0px;
+}
+.bg-dark {
+    background-color: #121212!important;
 }

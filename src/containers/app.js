@@ -8,6 +8,7 @@ import Header from '../components/Header';
 import Container from 'react-bootstrap/Container';
 import ArtistPage from './ArtistPage';
 import AlbumPage from './AlbumPage';
+import CategoryPage from './CategoryPage';
 export default class App extends Component {
   render() {
     return (
@@ -19,6 +20,7 @@ export default class App extends Component {
           <Route exact path="/" component={Home}></Route>
           <Route path="/artist/:id" component={ArtistPage}></Route>
           <Route path="/album/:id" component={AlbumPage}></Route>
+          <Route path="/category/:id" component={CategoryPage}></Route>
         </Router>
       </Container>
         <AudioControl/>

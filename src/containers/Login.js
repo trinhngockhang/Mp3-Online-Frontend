@@ -36,7 +36,7 @@ class Login extends Component {
   }
 
   render() {
-    if(this.props.logined){
+    if(this.props.logined.auth){
       return(<Redirect to='/' />)
     }
     return (

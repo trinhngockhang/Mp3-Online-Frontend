@@ -5,6 +5,7 @@ import Slide from '../components/Slide';
 import NewSong from '../components/NewSong';
 import ArtistSection from '../components/ArtistSection';
 import AlbumSection from '../components/AlbumSection';
+import CategorySection from '../components/CategoriesSection';
 
 export default class Home extends Component{
   render(){
@@ -13,6 +14,7 @@ export default class Home extends Component{
         <Slide/>
         <NewSong/>
         <AlbumSection/>
+        <CategorySection/>
         <ArtistSection/>
       </div>
     )

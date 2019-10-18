@@ -20,10 +20,11 @@ export default class AlbumSection extends Component{
         <h3>Albums mới</h3>
         <Row>
           {this.state.items.map((album, index) => {
+            if(index > 4 ) return <div></div>
             return(
-              <Col key={index} col lg = {3} md={3}>
+              <Col key={index}>
               <Link to={`/album/${album.id}`}>
-                <img src={album.img}></img>
+                <img className='album-image' src={album.img} alt={album.albumName}></img>
                 <p>{album.albumName}</p>
               </Link>
               </Col>

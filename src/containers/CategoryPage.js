@@ -1,30 +1,38 @@
 import React, { Component } from 'react';
-import { axiosApi} from '../utils/axios';
-import { Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { axiosApi } from '../utils/axios';
+import { Row, Col } from 'react-bootstrap';
 import { playSong } from '../actions/action_song';
+import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 
-class NewSong extends Component{
+class CategoryPage extends Component{
   constructor(props){
     super(props);
-    this.state = {items: []};
-    this.getData();
+    console.log(this.props.match.params.id);
+    this.getListSong(this.props.match.params.id);
+    this.state = {};
   }
-  async getData(){
-    const result = await axiosApi.get('/song/new');
-    this.setState({items: result.data});
+  async getListSong(id){
+    const result = await axiosApi.get(`/song/category/${id}`);
+    this.setState({...this.state, listSong: result.data}); 
   }
-
   render(){
+    if(!this.state.listSong){
+      return (
+        <div >
+
+        </div>
+      )
+    }
+    console.log(this.state.listSong);
     return (
       <div className="section">
-        <h3>Những bài hát mới</h3>
+        <h3>{this.state.listSong[0].categoryName}</h3>
         <Row>
-          {this.state.items.map((song, index) => {
-            if(index > 11 ) return <div></div>
+        {this.state.listSong.map((song, index) => {
             return(
-              <Col key={index} col lg = {2} md={2} className="playable song" onClick={() =>{
+              <Col key={index} col lg = {2} md={3} className="playable song" onClick={() =>{
                 this.props.playSong(song);
                 }}>
                 <img src={song.image} className="song-image"></img>
@@ -45,6 +53,7 @@ class NewSong extends Component{
   }
 };
 
+
 function mapStateToProps(state){
   return {
     songActive: state.songActive
@@ -55,4 +64,4 @@ function mapDispatchToProps(dispatch){
   return bindActionCreators({ playSong: playSong, }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewSong);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryPage);
