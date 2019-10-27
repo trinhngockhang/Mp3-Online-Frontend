@@ -9,6 +9,7 @@ import Container from 'react-bootstrap/Container';
 import ArtistPage from './ArtistPage';
 import AlbumPage from './AlbumPage';
 import CategoryPage from './CategoryPage';
+import SearchPage from './SearchPage';
 export default class App extends Component {
   render() {
     return (
@@ -21,6 +22,7 @@ export default class App extends Component {
           <Route path="/artist/:id" component={ArtistPage}></Route>
           <Route path="/album/:id" component={AlbumPage}></Route>
           <Route path="/category/:id" component={CategoryPage}></Route>
+          <Route path="/search" component={SearchPage}></Route>
         </Router>
       </Container>
         <AudioControl/>

@@ -162,3 +162,16 @@ li {
 .bg-dark {
     background-color: #121212!important;
 }
+
+.form-search{
+    background-color: #121212;
+    width: 67%;
+    
+}
+#input-search{
+    background-color: #121212;
+    width: 77%;
+    border-radius: 8px;
+    color: #fcfcfc;
+    border: 1px solid #2e2e2e;
+}

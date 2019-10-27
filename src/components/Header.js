@@ -1,8 +1,23 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'
 
-export default class Header extends Component{
+class Header extends Component{
+  constructor(props){
+    super(props);
+    this.state = {input: ''};
+    console.log(this.props);
+    this.onChangeInput = this.onChangeInput.bind(this);
+  }
+  submitSearch(event){
+    event.preventDefault();
+    this.props.history.replace(`/search?keyword=${this.state.input}`)
+  }
+  onChangeInput(content){
+    console.log(this.props);
+    this.setState({input: content});
+  }
   render(){
     return (
       <div>
@@ -24,11 +39,13 @@ export default class Header extends Component{
         </NavDropdown> */}
         </Nav>
   </Navbar.Collapse>
-  <Form inline>
-      <FormControl type="text" placeholder="Search song,album..." className="sr-sm-2" />
-    </Form>
+  <Form inline className="form-search" onSubmit={(event) => this.submitSearch(event)}>
+    <FormControl onChange={(e) => this.onChangeInput(e.target.value)} type="text" placeholder="Search song,album..." className="sr-sm-2 " id ="input-search" />
+  </Form>
 </Navbar>
       </div>
     )
   }
 };
+
+export default withRouter(Header);
