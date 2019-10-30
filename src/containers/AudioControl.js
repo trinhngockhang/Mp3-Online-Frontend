@@ -53,6 +53,6 @@ function mapStateToProps(state) {
   }
 }
 function mapDispatchToProps(dispatch){
-    return bindActionCreators({ removeOldList, }, dispatch);
-  }
+  return bindActionCreators({ removeOldList, }, dispatch);
+}
 export default connect(mapStateToProps, mapDispatchToProps)(AudioControl);

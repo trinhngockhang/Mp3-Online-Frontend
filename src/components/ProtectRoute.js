@@ -5,12 +5,11 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 class ProtectedRoute extends Component {
   render() {
     const { component: Component, ...props } = this.props
-    console.log('aa',  this.props.logined);
     return (
       <Route 
         {...props} 
         render={props => (
-          this.props.logined ?
+          this.props.user.logined ?
             <Component {...props} /> :
             <Redirect to='/login' />
         )} 
@@ -20,7 +19,7 @@ class ProtectedRoute extends Component {
 }
 function mapStateToProps(state){
     return {
-      logined: state.auth
+      user: state.auth
     }
 }
   

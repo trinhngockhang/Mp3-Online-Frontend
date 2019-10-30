@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loginAction } from '../actions/auth';
+import { loginAction, getMe } from '../actions/auth';
 import { Redirect } from "react-router-dom";
 
 class Login extends Component {
@@ -33,10 +33,11 @@ class Login extends Component {
       username: this.state.username,
       password: this.state.password,
     });
+    this.props.getMe();
   }
 
   render() {
-    if(this.props.logined.auth){
+    if(this.props.user.logined){
       return(<Redirect to='/' />)
     }
     return (
@@ -73,12 +74,12 @@ class Login extends Component {
 }
 function mapStateToProps(state){
   return {
-    logined: state
+    user: state.auth
   }
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({ loginAction: loginAction }, dispatch);
+  return bindActionCreators({ loginAction: loginAction, getMe }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

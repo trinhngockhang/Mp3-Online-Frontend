@@ -1,6 +1,10 @@
 import axios from 'axios';
 import localStorage from 'localStorage';
-const LOGIN = 'LOGIN';
+import { axiosAuthen } from '../utils/axios';
+export const LOGIN = 'LOGIN';
+export const CHECKINIT = 'CHECKINIT';
+export const GETME = 'GETME';
+export const LOGOUT = 'LOGOUT';
 
 export const loginAction = ({ username, password }) => {
   return dispatch => {
@@ -21,6 +25,50 @@ export const loginAction = ({ username, password }) => {
   };
 };
 
+export const checkInit = () => {
+  return dispatch => {
+    const token = localStorage.getItem('token');
+    console.log('token luc khoi dong', token);
+    if(token){
+      dispatch(loginInit(token));
+    }
+  }
+}
+
+export const logOut = () => {
+  return dispatch => {
+    return dispatch({
+      type: LOGOUT,
+      payload: {
+        data : false,
+        login: false
+      }
+    })
+  }
+}
+
+export const getMe = () => {
+  return async dispatch => {
+    const axiosAu =  await axiosAuthen();
+    const result =  await axiosAu.get('/users/me');
+    dispatch(getInfoUser(result.data));
+  }
+}
+
+const loginInit = (result) => ({
+  type: CHECKINIT,
+  payload: {
+    token: result,
+  }
+})
+
+const getInfoUser = data => ({
+  type: GETME,
+  payload: {
+    user: data
+  }
+})
+
 const loginSuccess = token => ({
   type: 'LOGIN_SUCCESS',
   payload: {
@@ -30,6 +78,7 @@ const loginSuccess = token => ({
 const loginStart = () => ({
   type: 'LOGIN_START'
 });
+
 const loginFail = () => ({
   type: 'LOGIN_FAIL'
 });
