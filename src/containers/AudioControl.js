@@ -12,7 +12,10 @@ class AudioControl extends Component{
   getNameSinger(song){
     let name = '';
     song.singer.forEach((element, index)=> {
+      if(!element.singer)
       name += index === 0 ? element : ' ,' + element;
+      else
+      name += index === 0 ? element.singer : ' ,' + element.singer;
     });
     return name;
   }
@@ -31,6 +34,7 @@ class AudioControl extends Component{
         <ReactJkMusicPlayer
         className = "audioControl"
         audioLists = {this.props.song.activeSong.map((song) => {
+          console.log(this.getNameSinger(song));
           return {
             name:song.nameSong,
             singer:this.getNameSinger(song),

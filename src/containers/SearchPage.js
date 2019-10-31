@@ -46,7 +46,8 @@ class SearchPage extends Component{
                 <Col key={index} col lg = {2} md={3} className="playable song" onClick={() =>{
                   this.props.playSong(song);
                   }}>
-                  <img src={song.image} className="song-image"></img>
+                  <Link to={`/song/detail/${song.id}`}>
+                  <img src={song.image} className="song-image" alt={song.nameSong}></img>
                   <p>{song.nameSong}</p>
                   <div class="player-actions">
                     <ul>
@@ -55,6 +56,7 @@ class SearchPage extends Component{
                       </li>
                     </ul>
                   </div>
+                  </Link>
                 </Col>
               )
             })}

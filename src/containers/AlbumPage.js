@@ -36,11 +36,11 @@ class AlbumPage extends Component{
         <Row>
           {/* phan thong tin album */}
           <Col md={3}>
-            <img src={this.state.album.img}>
+            <img src={this.state.album.img} alt={this.state.album.albumName}>
             </img>
             <h4>{this.state.album.albumName}</h4>
             {this.state.album.singer.map((data, index) =>{
-              return index == 0?
+              return index === 0?
               (
                 <Link to={`/artist/${data.singerId}`}>
                   <span key={index}>{data.singer}</span>

@@ -4,6 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { playSong } from '../actions/action_song';
+import { Link } from 'react-router-dom';
 
 class NewSong extends Component{
   constructor(props){
@@ -25,9 +26,10 @@ class NewSong extends Component{
             if(index > 11 ) return <div></div>
             return(
               <Col key={index} col lg = {2} md={2} className="playable song" onClick={() =>{
-                this.props.playSong(song);
+                // this.props.playSong(song);
                 }}>
-                <img src={song.image} className="song-image"></img>
+                <Link to={`/song/detail/${song.id}`}>
+                <img src={song.image} className="song-image" alt={song.nameSong}></img>
                 <p>{song.nameSong}</p>
                 <div class="player-actions">
                   <ul>
@@ -36,6 +38,7 @@ class NewSong extends Component{
                     </li>
                   </ul>
                 </div>
+                </Link>
               </Col>
             )
           })}

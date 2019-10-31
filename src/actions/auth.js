@@ -36,6 +36,7 @@ export const checkInit = () => {
 }
 
 export const logOut = () => {
+  localStorage.removeItem('token');
   return dispatch => {
     return dispatch({
       type: LOGOUT,

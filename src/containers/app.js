@@ -11,6 +11,8 @@ import AlbumPage from './AlbumPage';
 import CategoryPage from './CategoryPage';
 import UserPage from './UserPage';
 import SearchPage from './SearchPage';
+import SongPage from './SongPage';
+import Footer from '../components/Footer';
 export default class App extends Component {
   render() {
     return (
@@ -24,7 +26,9 @@ export default class App extends Component {
           <Route path="/album/:id" component={AlbumPage}></Route>
           <Route path="/category/:id" component={CategoryPage}></Route>
           <Route path="/search" component={SearchPage}></Route>
-          <Route path="/user/:id" component={UserPage}></Route>
+          <ProtectedRoute path="/user/:id" component={UserPage}></ProtectedRoute>
+          <Route path="/song/detail/:id" component={SongPage}></Route>
+          <Footer/>
         </Router>
       </Container>
         <AudioControl/>

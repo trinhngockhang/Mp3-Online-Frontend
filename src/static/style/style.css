@@ -196,3 +196,45 @@ li {
 .navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover{
     color: #ffffff
 }
+.img-song-detail {
+    width: 100%;
+}
+.listen-button {
+    margin-right: 13px;
+}
+
+.footer {
+    border-top: 1px solid #232323;
+    font-size: 14px;
+    margin-top: 30px;
+}
+
+.sub-footer {
+    margin-top: 30px;
+}
+
+.footer-content {
+    justify-content: center;
+    display: flex;
+}
+.nav, ol, p, ul {
+    list-style: none;
+}
+.z-nav-footer li {
+    display: inline-block;
+    padding: 3px;
+}
+.modal-body{
+    background-color: #0e2533;
+    border-bottom: none;
+}
+
+.modal-header{
+    background-color: #0e2533;
+    border-bottom: none;
+}
+
+.modal-footer{
+    border-top: none;
+    background-color: #0e2533;
+}
