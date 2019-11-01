@@ -3,16 +3,25 @@ import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loginAction, getMe } from '../actions/auth';
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.state = {
-      username: "",
-      password: ""
-    };
+    const params = new URLSearchParams(this.props.location.search); 
+    const keyword = params.get('signup');
+    if(keyword === "success"){
+       this.state = {redirectMess: "Đăng ký thành công, mời đăng nhập lại",
+       username: "",
+       password: ""
+      };
+    }else{
+      this.state = {
+        username: "",
+        password: ""
+      };
+    }
   }
 
   validateForm() {
@@ -42,9 +51,10 @@ class Login extends Component {
     }
     return (
       <div className="Login">
+      <h5 style={{textAlign: 'center'}}>{this.state.redirectMess}</h5>
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="username" bsSize="large">
-            <FormLabel>username</FormLabel>
+            <FormLabel>Tên đăng nhập</FormLabel>
             <FormControl
               autoFocus
               type="text"
@@ -52,13 +62,14 @@ class Login extends Component {
             />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
-            <FormLabel>Password</FormLabel>
+            <FormLabel>Mật khẩu</FormLabel>
             <FormControl
               value={this.state.password}
               onChange={this.handleChange}
               type="password"
             />
           </FormGroup>
+          <p>{this.props.user.loginFail}</p>
           <Button
             className="button"
             block
@@ -68,6 +79,10 @@ class Login extends Component {
             Login
           </Button>
         </form>
+        <div style={{justifyContent: 'center', display: 'flex', marginTop: '30px'}}>
+        <p>Nếu bạn chưa có tài khoản?</p>
+        <Link to="/signup"><span>Click Here</span></Link>
+        </div>
       </div>
     );
   }

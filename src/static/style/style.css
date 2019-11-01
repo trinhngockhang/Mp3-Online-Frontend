@@ -57,6 +57,7 @@
 .all-card{
     display: -webkit-box;
     margin-bottom: 9px;
+    width: 90%;
     border-bottom: 1px solid #232323;
 }
 .title-singer{
@@ -237,4 +238,13 @@ li {
 .modal-footer{
     border-top: none;
     background-color: #0e2533;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #29394a;
+    border-color: #4978ab;
+}
+
+.like-icon:hover{
+    cursor: pointer;
 }

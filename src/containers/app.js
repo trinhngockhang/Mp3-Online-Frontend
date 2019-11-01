@@ -11,6 +11,7 @@ import AlbumPage from './AlbumPage';
 import CategoryPage from './CategoryPage';
 import UserPage from './UserPage';
 import SearchPage from './SearchPage';
+import SignUp from './SignUp';
 import SongPage from './SongPage';
 import Footer from '../components/Footer';
 export default class App extends Component {
@@ -28,6 +29,7 @@ export default class App extends Component {
           <Route path="/search" component={SearchPage}></Route>
           <ProtectedRoute path="/user/:id" component={UserPage}></ProtectedRoute>
           <Route path="/song/detail/:id" component={SongPage}></Route>
+          <Route path="/signup" component={SignUp}></Route>
           <Footer/>
         </Router>
       </Container>

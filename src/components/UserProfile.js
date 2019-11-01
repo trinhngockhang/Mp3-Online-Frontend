@@ -11,7 +11,9 @@ class UserProfile extends Component {
   constructor(props){
     super(props);
     this.props.checkInit();
-    this.props.getMe();
+    if(this.props.user.logined){
+      this.props.getMe();
+    }
     this.state = {};
   }
 

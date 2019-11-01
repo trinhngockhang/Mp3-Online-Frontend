@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { axiosApi } from '../utils/axios';
-import { Row, Col } from 'react-bootstrap';
+import { axiosApi, axiosAuthen } from '../utils/axios';
+import { Row, Col, Button, Modal } from 'react-bootstrap';
 import { playSong } from '../actions/action_song';
 import { bindActionCreators } from 'redux';
+import { FaHeart, FaRegHeart, FaEllipsisV } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 class ArtistPage extends Component{
   constructor(props){
@@ -12,14 +14,48 @@ class ArtistPage extends Component{
     this.getListSong(this.props.match.params.id);
     this.state = {};
   }
+  handleShow(){
+    this.setState({...this.state, show: true});
+  }
+  handleClose(){
+    this.setState({...this.state, show: false});
+  }
   async getDataArtist(id){
     const result = await axiosApi.get(`/artist/detail/${id}`);
     console.log(result);
     this.setState({...this.state,artist: result.data});
   }
   async getListSong(id){
-    const result = await axiosApi.get(`/song/artist/${id}`);
+    const axios = await axiosAuthen();
+    const result = await axios.get(`/song/artist/${id}`);
     this.setState({...this.state, listSong: result.data}); 
+  }
+  async likeSong(id, liked){
+    console.log('id like:', liked);
+    if(!this.props.user.logined){
+      this.handleShow();
+      return;
+    }
+    const axios = await axiosAuthen();
+    if(!liked){
+      await axios.post(`/users/like/`, {
+        songId: id
+      })
+      let listSong = [ ...this.state.listSong ];
+      listSong.forEach(element => {
+        if(element.id === id) element.liked = true;
+      });
+    this.setState({ ...this.state, listSong: listSong});
+    } else {
+      await axios.post(`/users/unlike/`, {
+        songId: id
+      })
+      let listSong = [ ...this.state.listSong ];
+      listSong.forEach(element => {
+        if(element.id === id) element.liked = false;
+      });
+      this.setState({ ...this.state, item: {...this.state.item}});
+    }
   }
   render(){
     if(!this.state.artist || !this.state.listSong){
@@ -31,6 +67,20 @@ class ArtistPage extends Component{
     }
     return (
       <div className="section">
+      <Modal show={this.state.show} onHide={() => this.handleClose()}>
+        <Modal.Header closeButton>
+          <Modal.Title>Chú ý</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Bạn cần phải đăng nhập để thực hiện tính năng này</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => this.handleClose()}>
+            Đóng
+          </Button>
+          <Button variant="primary" onClick={() =>this.handleClose()}>
+            <Link to='/login'>Login</Link>
+          </Button>
+        </Modal.Footer>
+      </Modal>
         <img className = "coverImg" src={this.state.artist.coverImage} alt={this.state.artist.name}></img>
         <Row className="description-artist">
           <Col lg={3}>
@@ -47,6 +97,7 @@ class ArtistPage extends Component{
             <div>
               {this.state.listSong.map((song,index) => {
               return(
+                <div style={{display: '-webkit-box'}}>
                   <div className="all-card playable" onClick={()=>{this.props.playSong(song)}}>
                     <div className="song-list" key={index}>
                     <div class="order">
@@ -72,6 +123,17 @@ class ArtistPage extends Component{
                         </div>
                     </div>
                   </div>
+                  <div>
+                  {
+                    song.liked?
+                     <FaHeart className ='like-icon' onClick={() => this.likeSong(song.id, song.liked)}/> :
+                     <FaRegHeart className ='like-icon' onClick={() => this.likeSong(song.id, song.liked)}/>
+                  }
+                  <Link to={`/song/detail/${song.id}`} style={{marginLeft: '20px'}}>
+                    <FaEllipsisV className ='like-icon'/>
+                  </Link>
+                  </div>
+                </div>
               )
             })}
             </div>
@@ -85,7 +147,8 @@ class ArtistPage extends Component{
 
 function mapStateToProps(state){
   return {
-    songActive: state.songActive
+    songActive: state.songActive,
+    user: state.auth
   }
 }
 

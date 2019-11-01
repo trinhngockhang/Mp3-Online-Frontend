@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { axiosApi, axiosAuthen } from '../utils/axios';
+import { axiosAuthen } from '../utils/axios';
 import { Row, Col, Button, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { playSong } from '../actions/action_song';
 import { Link } from 'react-router-dom';
-
+import { FaHeart, FaRegHeart, FaPlay } from 'react-icons/fa';
 class SongPage extends Component{
   constructor(props){
     super(props);
@@ -93,11 +93,13 @@ class SongPage extends Component{
               {this.getNameCategories()}
               <br/>
               
-              <Button className="listen-button" onClick={() => this.props.playSong(this.state.item)}>Nghe</Button>
+              <Button className="listen-button" onClick={() => this.props.playSong(this.state.item)}>
+                <FaPlay/>
+              </Button>
               <Button className="like-button" onClick={() => this.likeSong()} >{
                 this.state.liked?
-                  <span>Liked</span>:
-                  <span>Like</span>
+                  <FaHeart/>:
+                  <FaRegHeart/>
               }</Button>
             </Col>
           </Row>

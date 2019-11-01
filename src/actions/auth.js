@@ -20,7 +20,7 @@ export const loginAction = ({ username, password }) => {
         dispatch(loginSuccess(res.data.token));
       })
       .catch(err => {
-        dispatch(loginFail(err.message));
+        dispatch(loginFail());
       });
   };
 };
@@ -81,5 +81,8 @@ const loginStart = () => ({
 });
 
 const loginFail = () => ({
-  type: 'LOGIN_FAIL'
+  type: 'LOGIN_FAIL',
+  payload: {
+    loginFail: 'Tài khoản hoặc mật khẩu sai',
+  }
 });

@@ -5,6 +5,8 @@ export default function(state = { logined: false, data: false }, action){
   switch(action.type){
     case 'LOGIN_SUCCESS':
       return { ...state, logined: action.payload }
+    case 'LOGIN_FAIL':
+      return { ...state, loginFail: action.payload.loginFail }
     case CHECKINIT:
       return { ...state, logined: action.payload }
     case GETME:
