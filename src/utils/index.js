@@ -3,7 +3,7 @@ export const convertToName = (arr = []) => {
   arr.forEach((data, index) =>{
     name += index === 0 ? data : ', ' + data;
   })
-  return name;
+  return name; 
 }
 
 export const convertToMinute = (seconds = 0) => {
