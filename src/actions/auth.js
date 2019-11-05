@@ -1,11 +1,12 @@
 import axios from 'axios';
 import localStorage from 'localStorage';
-import { axiosAuthen } from '../utils/axios';
+import { axiosAuthen, axiosApi } from '../utils/axios';
 export const LOGIN = 'LOGIN';
 export const CHECKINIT = 'CHECKINIT';
 export const GETME = 'GETME';
 export const LOGOUT = 'LOGOUT';
-
+export const LOGINFACEBOOK = 'LOGINFACEBOOK';
+ 
 export const loginAction = ({ username, password }) => {
   return dispatch => {
     dispatch(loginStart());
@@ -24,6 +25,32 @@ export const loginAction = ({ username, password }) => {
       });
   };
 };
+
+export const loginFb = (accessToken) => {
+  return dispatch => {
+    axiosApi.post('/auth/login-fb', {
+      accessToken
+    }).then((response) => {
+      localStorage.setItem('token', response.data.token);
+      dispatch(loginSuccess(response.data.token));
+    }).catch((e) => {
+
+    });
+  }
+}
+
+export const loginGg = (accessToken) => {
+  return dispatch => {
+    axiosApi.post('/auth/login-gg', {
+      accessToken
+    }).then((response) => {
+      localStorage.setItem('token', response.data.token);
+      dispatch(loginSuccess(response.data.token));
+    }).catch((e) => {
+
+    });
+  }
+}
 
 export const checkInit = () => {
   return dispatch => {

@@ -2,15 +2,18 @@ import React, { Component } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loginAction, getMe } from '../actions/auth';
+import { loginAction, getMe, loginFb, loginGg } from '../actions/auth';
 import { Redirect, Link } from "react-router-dom";
-
+import FacebookLogin from 'react-facebook-login';
+import { GoogleLogin } from 'react-google-login';
 class Login extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     const params = new URLSearchParams(this.props.location.search); 
     const keyword = params.get('signup');
+    this.responseFacebook = this.responseFacebook.bind(this);
+    this.responseGoogle = this.responseGoogle.bind(this);
     if(keyword === "success"){
        this.state = {redirectMess: "Đăng ký thành công, mời đăng nhập lại",
        username: "",
@@ -23,7 +26,10 @@ class Login extends Component {
       };
     }
   }
-
+  responseGoogle(response){
+    console.log('response tu gg', response);
+    this.props.loginGg(response.tokenId);
+  }
   validateForm() {
     return this.state.username.length > 0 && this.state.password.length > 0;
   }
@@ -45,6 +51,13 @@ class Login extends Component {
     this.props.getMe();
   }
 
+  responseFacebook(response){
+    console.log('response', response);
+    this.props.loginFb(response.accessToken);
+    // if(this.props.user.logined){
+    //   this.props.getMe();
+    // }
+  }
   render() {
     if(this.props.user.logined){
       return(<Redirect to='/' />)
@@ -79,6 +92,18 @@ class Login extends Component {
             Login
           </Button>
         </form>
+        <FacebookLogin
+        style={{justifyContent: 'center', display: 'flex', marginTop: '30px'}}
+        appId="2613047625477892"
+        fields="name"
+        callback={this.responseFacebook} />
+        <GoogleLogin
+          clientId="489701027929-pluu215a3umit17t7iutmliavd0qmbec.apps.googleusercontent.com"
+          buttonText="Login"
+          onSuccess={this.responseGoogle}
+          onFailure={this.responseGoogle}
+          cookiePolicy={'single_host_origin'}
+        />,
         <div style={{justifyContent: 'center', display: 'flex', marginTop: '30px'}}>
         <p>Nếu bạn chưa có tài khoản?</p>
         <Link to="/signup"><span>Click Here</span></Link>
@@ -94,7 +119,7 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({ loginAction: loginAction, getMe }, dispatch);
+  return bindActionCreators({ loginAction: loginAction, getMe, loginFb, loginGg }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
