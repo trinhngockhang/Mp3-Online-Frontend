@@ -92,18 +92,25 @@ class Login extends Component {
             Login
           </Button>
         </form>
-        <FacebookLogin
-        style={{justifyContent: 'center', display: 'flex', marginTop: '30px'}}
-        appId="2613047625477892"
-        fields="name"
-        callback={this.responseFacebook} />
-        <GoogleLogin
-          clientId="489701027929-pluu215a3umit17t7iutmliavd0qmbec.apps.googleusercontent.com"
-          buttonText="Login"
-          onSuccess={this.responseGoogle}
-          onFailure={this.responseGoogle}
-          cookiePolicy={'single_host_origin'}
-        />,
+        <div className="social-login" style={{justifyContent: 'center', display: 'grid', marginTop: '30px'}}>
+          <FacebookLogin
+          style={{width: '45%'}}
+          appId="2613047625477892"
+          fields="name"
+          callback={this.responseFacebook} />
+          <div style={{marginTop: '30px'}}> 
+          <GoogleLogin
+            clientId="489701027929-pluu215a3umit17t7iutmliavd0qmbec.apps.googleusercontent.com"
+            buttonText="Login"
+            className="gg-button"
+            style={{width: '100%'}}
+            onSuccess={this.responseGoogle}
+            onFailure={this.responseGoogle}
+            cookiePolicy={'single_host_origin'}
+          />
+          </div>
+          
+        </div>
         <div style={{justifyContent: 'center', display: 'flex', marginTop: '30px'}}>
         <p>Nếu bạn chưa có tài khoản?</p>
         <Link to="/signup"><span>Click Here</span></Link>

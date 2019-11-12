@@ -7,16 +7,15 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaRegHeart, FaEllipsisV } from 'react-icons/fa';
 
-class UserPage extends Component{
+class Chart extends Component{
   constructor(props){
     super(props);
-    console.log(this.props.match.params.id);
-    this.getListSong(this.props.match.params.id);
+    this.getListSong();
     this.state = {};
   }
-  async getListSong(id){
+  async getListSong(){
     const axios = await axiosAuthen();
-    const result = await axios.get(`/song/like`);
+    const result = await axios.get(`/song/chart`);
     console.log(result.data);
     this.setState({...this.state, listSong: result.data}); 
   }
@@ -58,7 +57,7 @@ class UserPage extends Component{
     console.log(this.state.listSong);
     return (
       <div className="section">
-      <h4>Danh sách bài hát bạn thích</h4>
+      <h4>Bảng xếp hạng</h4>
       <br/>
         <Row>
             {/* Danh sach bai hat */}
@@ -124,4 +123,4 @@ function mapDispatchToProps(dispatch){
   return bindActionCreators({ playSong: playSong, }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPage);
+export default connect(mapStateToProps, mapDispatchToProps)(Chart);

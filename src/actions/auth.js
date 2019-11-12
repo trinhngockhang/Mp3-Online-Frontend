@@ -4,6 +4,7 @@ import { axiosAuthen, axiosApi } from '../utils/axios';
 export const LOGIN = 'LOGIN';
 export const CHECKINIT = 'CHECKINIT';
 export const GETME = 'GETME';
+export const TOKENEXPIRED = 'TOKENEXPIRED';
 export const LOGOUT = 'LOGOUT';
 export const LOGINFACEBOOK = 'LOGINFACEBOOK';
  
@@ -78,8 +79,19 @@ export const logOut = () => {
 export const getMe = () => {
   return async dispatch => {
     const axiosAu =  await axiosAuthen();
-    const result =  await axiosAu.get('/users/me');
-    dispatch(getInfoUser(result.data));
+    axiosAu.get('/users/me').then((result) => {
+      dispatch(getInfoUser(result.data));
+    }).catch((err) => {
+      if(err.response.status == 401){
+        dispatch({
+          type: TOKENEXPIRED,
+          payload: {
+            data: false,
+            login: false
+          }
+        })
+      }
+    })
   }
 }
 

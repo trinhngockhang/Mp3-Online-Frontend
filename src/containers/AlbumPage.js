@@ -66,7 +66,6 @@ class AlbumPage extends Component{
         </div>
       )
     }
-    console.log(this.state.listSong);
     return (
       <div className="section">
        <Modal show={this.state.show} onHide={() => this.handleClose()}>

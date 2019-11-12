@@ -248,3 +248,8 @@ li {
 .like-icon:hover{
     cursor: pointer;
 }
+
+.gg-button {
+    width: 100%;
+    font-size: 25px;
+}

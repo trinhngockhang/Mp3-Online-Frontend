@@ -18,7 +18,7 @@ class UserProfile extends Component {
   }
 
   componentDidUpdate(){
-    if(!this.props.user.data){
+    if(!this.props.user.data && this.props.user.logined){
       this.props.getMe();
     }
   }

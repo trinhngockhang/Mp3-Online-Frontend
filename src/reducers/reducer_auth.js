@@ -1,4 +1,4 @@
-import { CHECKINIT, GETME, LOGOUT, LOGINFACEBOOK } from '../actions/auth';
+import { CHECKINIT, GETME, LOGOUT, LOGINFACEBOOK, TOKENEXPIRED } from '../actions/auth';
 
 export default function(state = { logined: false, data: false }, action){
   console.log('action ne', action);
@@ -15,6 +15,8 @@ export default function(state = { logined: false, data: false }, action){
       return { ...state, logined: action.payload }
     case LOGOUT:
       return { ...state, data: action.payload.data, logined: action.payload.logined }
+    case TOKENEXPIRED:
+      return { ...state, data: action.payload.data, logined: action.payload.login }
     default:
       return state;
   }
