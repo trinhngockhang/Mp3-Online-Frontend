@@ -13,7 +13,7 @@ export default function(state = {activeSong: [], list: true}, action){
         }else{
           return { ...state, list: true, activeSong: [...state.activeSong, action.payload.songActive]} 
         }
-      case 'REMOVE_LIST':
+      case 'REMOVE_LIST': 
         return { ...state, list: false}
         default:
         return state;
