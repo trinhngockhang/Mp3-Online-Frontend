@@ -4,14 +4,13 @@ import { axiosApi, axiosAuthen } from '../utils/axios';
 import { Row, Col, Button, Modal } from 'react-bootstrap';
 import { playSong } from '../actions/action_song';
 import { bindActionCreators } from 'redux';
-import { FaHeart, FaRegHeart, FaEllipsisV } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { FaHeart, FaRegHeart, FaEllipsisV } from 'react-icons/fa';
 
-class ArtistPage extends Component{
+class ChartPage extends Component{
   constructor(props){
     super(props);
-    this.getDataArtist(this.props.match.params.id);
-    this.getListSong(this.props.match.params.id);
+    this.getListSong();
     this.state = {};
   }
   handleShow(){
@@ -20,18 +19,14 @@ class ArtistPage extends Component{
   handleClose(){
     this.setState({...this.state, show: false});
   }
-  async getDataArtist(id){
-    const result = await axiosApi.get(`/artist/detail/${id}`);
-    console.log(result);
-    this.setState({...this.state,artist: result.data});
-  }
-  async getListSong(id){
+  async getListSong(){
     const axios = await axiosAuthen();
-    const result = await axios.get(`/song/artist/${id}`);
+    const result = await axios.get(`/song/chart?page=1&size=15`);
+    console.log(result.data);
     this.setState({...this.state, listSong: result.data}); 
   }
   async likeSong(id, liked){
-    console.log('id like:', liked);
+    console.log('id like:', id);
     if(!this.props.user.logined){
       this.handleShow();
       return;
@@ -58,15 +53,18 @@ class ArtistPage extends Component{
     }
   }
   render(){
-    if(!this.state.artist || !this.state.listSong){
+    if(!this.state.listSong){
       return (
         <div >
 
         </div>
       )
     }
+    console.log(this.state.listSong);
     return (
       <div className="section">
+      <h4>Bảng xếp hạng</h4>
+      <br/>
       <Modal show={this.state.show} onHide={() => this.handleClose()}>
         <Modal.Header closeButton>
           <Modal.Title>Chú ý</Modal.Title>
@@ -83,23 +81,13 @@ class ArtistPage extends Component{
           </Link>
         </Modal.Footer>
       </Modal>
-        <img className = "coverImg" src={this.state.artist.coverImage} alt={this.state.artist.name}></img>
-        <Row className="description-artist">
-          <Col lg={3}>
-            <img src={this.state.artist.avatar} alt={this.state.name}></img>
-          </Col>
-          <Col lg={9}>
-            <p>{this.state.artist.name}</p>
-            <p>{this.state.artist.description}</p>
-          </Col>
-        </Row>
-        <h3>Những ca khúc của {this.state.artist.name}</h3>
         <Row>
-            <Col className="list-song-album-page">
+            {/* Danh sach bai hat */}
+          <Col className="list-song-album-page">
             <div>
               {this.state.listSong.map((song,index) => {
               return(
-                <div style={{display: '-webkit-box'}}>
+                  <div style={{display: '-webkit-box'}}>
                   <div className="all-card playable" onClick={()=>{this.props.playSong(song)}}>
                     <div className="song-list" key={index}>
                     <div class="order">
@@ -115,11 +103,11 @@ class ArtistPage extends Component{
                         {song.singer.map((data, index) =>{
                             return index === 0?
                             (
-                              <span key={index}>{data.singer}</span>
+                              <span key={index}>{data}</span>
                             )
                             :
                             (
-                              <span key={index}>, {data.singer}</span>  
+                              <span key={index}>, {data}</span>  
                             )
                         })}
                         </div>
@@ -135,7 +123,7 @@ class ArtistPage extends Component{
                     <FaEllipsisV className ='like-icon'/>
                   </Link>
                   </div>
-                </div>
+                  </div>
               )
             })}
             </div>
@@ -145,7 +133,6 @@ class ArtistPage extends Component{
     )
   }
 };
-
 
 function mapStateToProps(state){
   return {
@@ -158,4 +145,4 @@ function mapDispatchToProps(dispatch){
   return bindActionCreators({ playSong: playSong, }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArtistPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ChartPage);

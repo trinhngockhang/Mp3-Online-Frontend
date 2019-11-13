@@ -77,9 +77,11 @@ class AlbumPage extends Component{
           <Button variant="secondary" onClick={() => this.handleClose()}>
             Đóng
           </Button>
+          <Link to='/login'>
           <Button variant="primary" onClick={() =>this.handleClose()}>
-            <Link to='/login'>Login</Link>
+            <span>Login</span>
           </Button>
+          </Link>
         </Modal.Footer>
       </Modal>
         <Row>

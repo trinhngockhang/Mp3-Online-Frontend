@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { axiosApi, axiosAuthen } from '../utils/axios';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Modal } from 'react-bootstrap';
 import { playSong } from '../actions/action_song';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
@@ -13,14 +13,20 @@ class Chart extends Component{
     this.getListSong();
     this.state = {};
   }
+  handleShow(){
+    this.setState({...this.state, show: true});
+  }
+  handleClose(){
+    this.setState({...this.state, show: false});
+  }
   async getListSong(){
     const axios = await axiosAuthen();
-    const result = await axios.get(`/song/chart`);
+    const result = await axios.get(`/song/chart?page=1&size=5`);
     console.log(result.data);
     this.setState({...this.state, listSong: result.data}); 
   }
   async likeSong(id, liked){
-    console.log('id like:', liked);
+    console.log('id like:', id);
     if(!this.props.user.logined){
       this.handleShow();
       return;
@@ -59,6 +65,22 @@ class Chart extends Component{
       <div className="section">
       <h4>Bảng xếp hạng</h4>
       <br/>
+      <Modal show={this.state.show} onHide={() => this.handleClose()}>
+        <Modal.Header closeButton>
+          <Modal.Title>Chú ý</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Bạn cần phải đăng nhập để thực hiện tính năng này</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => this.handleClose()}>
+            Đóng
+          </Button>
+          <Link to='/login'>
+          <Button variant="primary" onClick={() =>this.handleClose()}>
+            <span>Login</span>
+          </Button>
+          </Link>
+        </Modal.Footer>
+      </Modal>
         <Row>
             {/* Danh sach bai hat */}
           <Col className="list-song-album-page">
