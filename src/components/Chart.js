@@ -21,7 +21,7 @@ class Chart extends Component{
   }
   async getListSong(){
     const axios = await axiosAuthen();
-    const result = await axios.get(`/song/chart?page=1&size=5`);
+    const result = await axios.get(`/song/chart?page=1&size=${this.props.limit}`);
     console.log(result.data);
     this.setState({...this.state, listSong: result.data}); 
   }
@@ -33,23 +33,23 @@ class Chart extends Component{
     }
     const axios = await axiosAuthen();
     if(!liked){
-      await axios.post(`/users/like/`, {
-        songId: id
-      })
       let listSong = [ ...this.state.listSong ];
       listSong.forEach(element => {
         if(element.id === id) element.liked = true;
       });
-    this.setState({ ...this.state, listSong: listSong});
+      this.setState({ ...this.state, listSong: listSong});
+      await axios.post(`/users/like/`, {
+        songId: id
+      })
     } else {
       await axios.post(`/users/unlike/`, {
         songId: id
       })
+      this.setState({ ...this.state, item: {...this.state.item}});
       let listSong = [ ...this.state.listSong ];
       listSong.forEach(element => {
         if(element.id === id) element.liked = false;
       });
-      this.setState({ ...this.state, item: {...this.state.item}});
     }
   }
   render(){

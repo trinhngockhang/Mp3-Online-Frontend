@@ -253,3 +253,12 @@ li {
     width: 100%;
     font-size: 25px;
 }
+
+.avatar-comment {
+  height: 100px;
+  width: 92px;
+}
+
+.comment-box-content {
+  margin-bottom: 23px;
+}

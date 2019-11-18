@@ -24,6 +24,7 @@ class UserProfile extends Component {
   }
   logOut(){
     this.props.logOut();
+    window.location.reload();
   }
   render() {
     return (
@@ -42,7 +43,6 @@ class UserProfile extends Component {
                 <NavDropdown.Item onClick={() => this.logOut()}>Đăng xuất</NavDropdown.Item>
               </NavDropdown>
             </div>
-            
           )
           :
           (

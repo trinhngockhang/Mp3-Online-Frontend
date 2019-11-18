@@ -14,7 +14,7 @@ export default class Home extends Component{
       <div>
         <Slide/>
         <NewSong/>
-        <Chart/>
+        <Chart limit={5}/>
         <AlbumSection/>
         <CategorySection/>
         <ArtistSection/>

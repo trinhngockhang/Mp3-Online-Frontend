@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { playSong } from '../actions/action_song';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaRegHeart, FaPlay } from 'react-icons/fa';
+import Comment from '../components/Comment';
 class SongPage extends Component{
   constructor(props){
     super(props);
@@ -37,15 +38,15 @@ class SongPage extends Component{
     }
     const axios = await axiosAuthen();
     if(!this.state.liked){
+      this.setState({ ...this.state, liked: true, item: {...this.state.item, likeNumber: parseInt(this.state.item.likeNumber) + 1}});
       await axios.post(`/users/like/`, {
         songId: this.state.item.id
       })
-    this.setState({ ...this.state, liked: true, item: {...this.state.item, likeNumber: parseInt(this.state.item.likeNumber) + 1}});
     } else {
+      this.setState({ ...this.state, liked: false, item: {...this.state.item, likeNumber: parseInt(this.state.item.likeNumber) - 1}});
       await axios.post(`/users/unlike/`, {
         songId: this.state.item.id
       })
-    this.setState({ ...this.state, liked: false, item: {...this.state.item, likeNumber: parseInt(this.state.item.likeNumber) - 1}});
     }
   }
   getNameCategories(){
@@ -57,6 +58,7 @@ class SongPage extends Component{
   render(){
    
     return (
+      <div>
       <div className="section">
       <Modal show={this.state.show} onHide={() => this.handleClose()}>
         <Modal.Header closeButton>
@@ -105,6 +107,8 @@ class SongPage extends Component{
           </Row>
         )
         }
+      </div>
+      <Comment songId={this.props.match.params.id} logined={this.props.user.logined}/>
       </div>
     )
   }
