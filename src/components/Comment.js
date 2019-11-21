@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { axiosApi, axiosAuthen } from '../utils/axios';
-import { Row, Col, Form, FormGroup, FormLabel, Button, Modal } from 'react-bootstrap';
+import { Row, Col, Form, FormGroup, FormLabel, Button, Modal, Pagination } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 
@@ -8,8 +8,9 @@ export default class Comment extends Component{
   constructor(props){
     super();
     this.props = props;
-    this.state = {data: null};
-    this.getComment();
+    this.numberCmtPage = 2;
+    this.state = {data: { comments: null, count: 0 }, page : 1, totalPage : 1 };
+    this.getComment(1);
   }
   handleShow(){
     this.setState({...this.state, show: true});
@@ -17,14 +18,52 @@ export default class Comment extends Component{
   handleClose(){
     this.setState({...this.state, show: false});
   }
-  getComment(){
-    axiosApi.get(`/song/comment/${this.props.songId}`).then((result) => {
+  getComment(pageNumber){
+    let url = `/song/comment/${this.props.songId}?page=${pageNumber}&size=${this.numberCmtPage}`;
+    console.log({url})
+    axiosApi.get(url).then((result) => {
         console.log(result);
-      this.setState({data: result.data});
+      this.setState({data: result.data, totalPage: result.data.count/this.numberCmtPage});
     })
   }
   onChangeInput(content){
     this.setState({input: content});
+  }
+  changePage(pageNumber){
+    this.setState({ ...this.state, page: pageNumber });
+    this.getComment(pageNumber);
+  }
+  nextPage(){
+    if(this.state.page < this.state.totalPage){
+      this.setState({ ...this.state, page: this.state.page + 1 });
+      this.getComment(this.state.page + 1);
+    }
+  }
+  prePage(){
+    if(this.state.page > 1){
+      this.setState({ ...this.state, page: this.state.page - 1 });
+      this.getComment(this.state.page - 1);
+    }
+  }
+  pagination(){
+    let arr = [];
+    for(let i = 1; i<= this.state.totalPage; i++ ){
+        arr.push(i);
+    }
+    return (
+        <Pagination style={{paddingLeft: '80%'}}>
+          <Pagination.Prev onClick={() => this.prePage()}/>
+          {
+            arr.map((number) => {
+              return <Pagination.Item active={this.state.page === number}
+              onClick={() => this.changePage(number)}
+              >
+              {number}</Pagination.Item>
+            })
+          }
+          <Pagination.Next onClick={() => this.nextPage()} />
+        </Pagination>
+    )
   }
   async submitComment(event){
     event.preventDefault();
@@ -64,7 +103,7 @@ export default class Comment extends Component{
           </Link>
         </Modal.Footer>
       </Modal>
-       <h4>Nhận xét</h4>
+       <h4>Nhận xét ({this.state.data.count})</h4>
        <Row>
            <Col>
            <Form onSubmit={(event) => this.submitComment(event)}>
@@ -80,9 +119,9 @@ export default class Comment extends Component{
            </Col>
        </Row>
         {
-         this.state.data? 
+         this.state.data.comments ? 
            <div>
-            {this.state.data.map((comment) => {
+            {this.state.data.comments.map((comment) => {
               return (
                 <Row className="comment-box-content">
                   <Col lg={1}>
@@ -106,6 +145,7 @@ export default class Comment extends Component{
 
           </div>
         }
+        {this.pagination()}
       </div>
     )
   }

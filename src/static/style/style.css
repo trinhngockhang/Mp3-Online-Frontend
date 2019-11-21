@@ -262,3 +262,12 @@ li {
 .comment-box-content {
   margin-bottom: 23px;
 }
+.page-link{
+    background-color: #29394a;   
+}
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #2769ad;
+    border-color: #c5cfda;
+}
