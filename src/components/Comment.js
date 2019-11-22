@@ -8,7 +8,7 @@ export default class Comment extends Component{
   constructor(props){
     super();
     this.props = props;
-    this.numberCmtPage = 2;
+    this.numberCmtPage = 10;
     this.state = {data: { comments: null, count: 0 }, page : 1, totalPage : 1 };
     this.getComment(1);
   }
