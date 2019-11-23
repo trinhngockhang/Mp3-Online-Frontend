@@ -23,7 +23,7 @@ export default class Comment extends Component{
     console.log({url})
     axiosApi.get(url).then((result) => {
         console.log(result);
-      this.setState({data: result.data, totalPage: result.data.count/this.numberCmtPage});
+      this.setState({data: result.data, totalPage: Math.round(result.data.count/this.numberCmtPage)});
     })
   }
   onChangeInput(content){
