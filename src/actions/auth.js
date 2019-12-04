@@ -6,6 +6,7 @@ export const CHECKINIT = 'CHECKINIT';
 export const GETME = 'GETME';
 export const TOKENEXPIRED = 'TOKENEXPIRED';
 export const LOGOUT = 'LOGOUT';
+export const LOGINSSO = "LOGINSSO";
 export const LOGINFACEBOOK = 'LOGINFACEBOOK';
  
 export const loginAction = ({ username, password }) => {
@@ -37,6 +38,13 @@ export const loginFb = (accessToken) => {
     }).catch((e) => {
 
     });
+  }
+}
+
+export const loginSso = (accessToken) => {
+  return dispatch => {
+    localStorage.setItem('token', accessToken);
+    dispatch(loginSuccess(accessToken));
   }
 }
 
@@ -82,7 +90,7 @@ export const getMe = () => {
     axiosAu.get('/users/me').then((result) => {
       dispatch(getInfoUser(result.data));
     }).catch((err) => {
-      if(err.response.status == 401){
+      if(err.response.status !== 200){
         dispatch({
           type: TOKENEXPIRED,
           payload: {

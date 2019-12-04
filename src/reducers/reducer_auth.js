@@ -1,4 +1,4 @@
-import { CHECKINIT, GETME, LOGOUT, LOGINFACEBOOK, TOKENEXPIRED } from '../actions/auth';
+import { CHECKINIT, GETME, LOGOUT, LOGINFACEBOOK, TOKENEXPIRED, LOGINSSO } from '../actions/auth';
 
 export default function(state = { logined: false, data: false }, action){
   console.log('action ne', action);

@@ -1,11 +1,14 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
+import { Button, FormGroup, FormControl, FormLabel, Modal } from "react-bootstrap";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loginAction, getMe, loginFb, loginGg } from '../actions/auth';
+import { loginAction, getMe, loginFb, loginGg, loginSso } from '../actions/auth';
 import { Redirect, Link } from "react-router-dom";
 import FacebookLogin from 'react-facebook-login';
 import { GoogleLogin } from 'react-google-login';
+import Spinner from 'react-spinner-material';
+import { axiosApi, axiosSSO } from "../utils/axios";
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -41,9 +44,7 @@ class Login extends Component {
   }
 
   handleSubmit = event => {
-    console.log("tu ligin:", this.state.username)
     event.preventDefault();
-    console.log("tu ligin:", this.state.username)
     this.props.loginAction({
       username: this.state.username,
       password: this.state.password,
@@ -58,12 +59,75 @@ class Login extends Component {
     //   this.props.getMe();
     // }
   }
+
+  handleShow(){
+    this.setState({...this.state, show: true});
+  }
+  handleClose(){
+    this.setState({...this.state, show: false});
+  }
+
+  async clickSso(){
+    this.handleShow();
+    // tao 1 phien lam viec moi
+    const result = await axiosSSO.post('/authorization/transaction', {
+      appId: 'iEMBWG8Lr'
+    });
+    this.setState({...this.state, qrCodeUrl: result.data.codeURL });
+    // lien tuc request toi server
+    var poolingId = setInterval(async () => {
+      console.log('pollni==');
+      const response = await axiosSSO.get(`/authorization/polling/${result.data.sessionId}`);
+        if(response.data.status === 204){
+          this.setState({ ...this.state, read:true });
+          console.log('da doc', response);
+        }else if(response.data.status === 200){
+          console.log('data ne', response.data);
+          clearInterval(poolingId);
+          const result = await axiosApi.post('/auth/login-sso', {
+            token: response.data.accessToken,
+          });
+          console.log(result);
+          this.props.loginSso(result.data);
+          console.log('chuyen sang trang home');
+          window.location = '/';
+        }
+    }, 2000)
+  }
+
   render() {
     if(this.props.user.logined){
       return(<Redirect to='/' />)
     }
     return (
       <div className="Login">
+      <Modal show={this.state.show} onHide={() => this.handleClose()}>
+        <Modal.Header closeButton>
+          <Modal.Title>Quét mã QR code</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        {
+          !this.state.qrCodeUrl ?
+          <div style={{  width: '70px', margin: 'auto' }}>
+            <Spinner size={70} spinnerColor={"#2768ca"} spinnerWidth={2} visible={true} />
+          </div>:
+          <img style = {{display: 'block', margin: 'auto'}}src={this.state.qrCodeUrl} alt="qrcode"/>
+        }
+        {
+          this.state.read ?
+            <div>
+              <br/>
+              <p>Đã quét, chờ xác nhận</p>
+            </div>
+          : null
+        }
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => this.handleClose()}>
+            Đóng
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <h5 style={{textAlign: 'center'}}>{this.state.redirectMess}</h5>
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="username" bsSize="large">
@@ -109,7 +173,13 @@ class Login extends Component {
             cookiePolicy={'single_host_origin'}
           />
           </div>
-          
+          <div>
+            <button className="ssoButton" onClick={() => {this.clickSso()}}>
+              <span>
+                Login By SSO
+              </span>
+            </button>
+          </div>
         </div>
         <div style={{justifyContent: 'center', display: 'flex', marginTop: '30px'}}>
         <p>Nếu bạn chưa có tài khoản?</p>
@@ -126,7 +196,7 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({ loginAction: loginAction, getMe, loginFb, loginGg }, dispatch);
+  return bindActionCreators({ loginAction: loginAction, loginSso, getMe, loginFb, loginGg }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
