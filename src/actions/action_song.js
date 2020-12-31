@@ -13,5 +13,4 @@ export const removeOldList = () => {
         type: 'REMOVE_LIST',
       });
     };
-  };
-  
+};

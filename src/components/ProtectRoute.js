@@ -22,5 +22,5 @@ function mapStateToProps(state){
       user: state.auth
     }
 }
-  
+
 export default connect(mapStateToProps)(ProtectedRoute);
